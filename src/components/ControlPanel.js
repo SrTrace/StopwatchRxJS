@@ -1,34 +1,45 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Box, Grid, Button} from "@material-ui/core";
 
 import {fromEvent} from "rxjs";
-import {filter, pairwise, repeat, map, startWith, take, takeUntil, takeWhile, tap} from "rxjs/operators";
+import {filter, pairwise, repeat, map, startWith, take, takeWhile, tap} from "rxjs/operators";
 
 const ControlPanel = ({start, stop, reset, timerOn, dbClick}) => {
     const waitBtn = useRef();
+    const [isDbClick, setIsDbClick] = useState(false);
+
+    const handleDbClick = () => {
+        if (isDbClick) {
+            setIsDbClick(false);
+            return dbClick();
+        }
+    };
 
     useEffect(() => {
         const dbClickTimeDelay = 300;
         fromEvent(waitBtn.current, 'click')
             .pipe(
                 startWith(null),
+                // tap(e => console.log(e)),
                 pairwise(),
                 takeWhile(e => (
                     !e[0] || e[0].target === e[1]?.target)
                 ),
-                // tap(e=> console.log(e[0])),
                 filter(e => (
-                    e[0] !== null && e[1].timeStamp - e[0].timeStamp <= dbClickTimeDelay)
+                    e[0] !== null && e[1]?.timeStamp - e[0].timeStamp <= dbClickTimeDelay)
                 ),
+                // tap(e => console.log(e)),
                 map(e => e[0]),
                 take(1),
                 repeat()
             )
             .subscribe(e => {
-                console.log('dbClicked', e);
-                dbClick();
+                if (e) {
+                    console.log('dbClicked', e);
+                    setIsDbClick(true);
+                }
             });
-        // console.log(waitBtn);
+
     }, []);
 
     return (
@@ -50,8 +61,7 @@ const ControlPanel = ({start, stop, reset, timerOn, dbClick}) => {
                         )}
                         <Button
                             ref={waitBtn}
-                            onClick={dbClick}
-                            // onClick={wait}
+                            onClick={handleDbClick}
                             variant="outlined"
                             color="secondary">Wait</Button>
                         <Button

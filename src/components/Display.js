@@ -47,7 +47,7 @@ const Display = ({time}) => {
                         </Paper>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} sx={{textAlign: "center"}}>
-                        <Paper item>
+                        <Paper>
                             <Typography
                                 variant="h6"
                                 color="textSecondary"

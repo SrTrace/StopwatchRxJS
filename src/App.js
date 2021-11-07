@@ -5,7 +5,7 @@ import Display from "./components/Display";
 import ControlPanel from "./components/ControlPanel";
 
 import {interval, Subject} from "rxjs";
-import {takeUntil} from "rxjs/operators";
+import { takeUntil} from "rxjs/operators";
 
 const styles = {
     bgContainer: {
@@ -16,6 +16,7 @@ const styles = {
 const App = () => {
     const [time, setTime] = useState(0);
     const [timerOn, setTimerOn] = useState(false);
+
 
     useEffect(() => {
         const newStream = new Subject();
@@ -49,14 +50,12 @@ const App = () => {
     };
 
     const handleWait = () => {
-        if (time !== 0) {
-            setTimerOn(false);
-        }
+        setTimerOn(false);
+
     };
 
     const handleReset = () => {
         setTime(0);
-        setTimerOn(false);
         if (time !== 0) {
             handleStart();
         }
@@ -72,6 +71,7 @@ const App = () => {
                 reset={handleReset}
                 wait={handleWait}
                 timerOn={timerOn}
+                // ref={waitBtn}
             />
         </Container>
     );
