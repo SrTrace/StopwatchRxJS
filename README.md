@@ -1,4 +1,4 @@
-#Technologies: React, RxJS, MaterialUI
+#Technologies: React, RxJS, MaterialUI link https://srtrace.github.io/StopwatchRxJS/
 
 #Реализовать секундомер, который подсчитывает время в формате «HH: MM: SS»
 
